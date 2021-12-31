@@ -1,20 +1,33 @@
 const express = require('express');
 const server = express();
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const logger = require('morgan');
+const mongoose = require('mongoose');
 
 const port = process.env.PORT || 1112;
+const config = require('./config');
+
+const usersRouter = require('./routes/users');
 
 // Gets log details
 server.use(logger('dev'));
+
+const dbUrl = config.dbUrl;
+
+const options = {
+  keepAlive: 1,
+  connectTimeoutMS: 30000,
+};
+
+mongoose.connect(dbUrl, options, (error) => {
+  if (error) console.log(error);
+  else console.log('Connected to Mongo DB...');
+});
+
 // Enables Cross-Origin resource sharing
 server.use(cors());
-// Handles HTTP requests
-server.use(bodyParser.urlencoded({extended: true}));
-server.use(bodyParser.json());
-
-const usersRouter = require('./routes/users');
+// Handles HTTP request body (replaced `body-parser`)
+server.use(express.json());
 server.use('/users', usersRouter);
 
 server.listen(port, () => {

@@ -9,6 +9,6 @@ const userInfoSchema = new Schema({
   userBlurb: {type: String},
 }, {collection: 'user_info'});
 
-const UserInfo = mongoose.model('userInfo', userInfoSchema);
+const UserInfo = mongoose.model('userInfo', userInfoSchema, 'user_info');
 
 module.exports = UserInfo;

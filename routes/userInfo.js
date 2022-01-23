@@ -23,25 +23,16 @@ router.get('/all', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  console.log('Fetching user info...');
   try {
     const userInfo = await UserInfo.findOne({
       _id: req.params.id,
     });
-
-    if (userInfo) {
-      res.status(200).json({
-        status: 200,
-        data: user,
-      });
-    } else {
-      res.status(400).json({
-        status: 400,
-        message: ErrorMessagesEnum.USER_INFO_NOT_FOUND,
-      });
-    }
+    res.status(200).json({
+      staus: 200,
+      data: userInfo,
+    });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       status: 400,
       message: error.message,
     });

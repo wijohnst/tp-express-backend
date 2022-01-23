@@ -4,7 +4,6 @@ const express = require('express');
 const router = express.Router();
 
 // Local Imports
-const [ErrorMessagesEnum] = require('../constants');
 const UserInfo = require('../models/userInfo');
 
 router.get('/all', async (req, res) => {

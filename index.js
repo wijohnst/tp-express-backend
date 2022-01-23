@@ -8,6 +8,7 @@ const port = process.env.PORT || 1112;
 const config = require('./config');
 
 const usersRouter = require('./routes/users');
+const userInfoRouter = require('./routes/userInfo');
 
 // Gets log details
 server.use(logger('dev'));
@@ -29,6 +30,7 @@ server.use(cors());
 // Handles HTTP request body (replaced `body-parser`)
 server.use(express.json());
 server.use('/users', usersRouter);
+server.use('/user_info', userInfoRouter);
 
 server.listen(port, () => {
   console.log(`ThrivingPark is listening on port ${port}...`);

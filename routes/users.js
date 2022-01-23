@@ -7,7 +7,6 @@ const [ErrorMessagesEnum, SuccessMessageEnum] = require('../constants');
 const User = require('../models/user');
 
 router.post('/', async (req, res) => {
-  console.log(req.body);
   try {
     let user = new User(req.body);
     user = await user.save();
@@ -33,7 +32,7 @@ router.get('/all', async (req, res) => {
   } catch (error) {
     res.status(400).json({
       status: 400,
-      data: users,
+      message: error,
     });
   }
 });
@@ -43,6 +42,7 @@ router.get('/:id', async (req, res) => {
     const user = await User.findOne({
       _id: req.params.id,
     });
+
     if (user) {
       res.status(200).json({
         status: 200,
@@ -93,11 +93,12 @@ router.delete('/:id', async (req, res) => {
         status: 200,
         message: SuccessMessageEnum.USER_REMOVED,
       });
+    } else {
+      res.status(400).json({
+        status: 400,
+        message: ErrorMessagesEnum.USER_NOT_FOUND,
+      });
     }
-    res.status(400).json({
-      status: 400,
-      message: ErrorMessagesEnum.USER_NOT_FOUND,
-    });
   } catch (error) {
     res.status(400).json({
       status: 400,
